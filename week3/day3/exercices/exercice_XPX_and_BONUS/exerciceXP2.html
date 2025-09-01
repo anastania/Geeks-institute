@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Exercise 2</title>
+</head>
+<body>
+  <form id="userForm">
+    <label for="fname">First name:</label><br>
+    <input type="text" id="fname" name="firstname"><br>
+    <label for="lname">Last name:</label><br>
+    <input type="text" id="lname" name="lastname"><br><br>
+    <input type="submit" value="Submit" id="submit">
+  </form> 
+  <ul class="usersAnswer"></ul>
+
+  <script>
+    const form = document.getElementById("userForm");
+    console.log(form);
+
+    const fname = document.getElementById("fname");
+    const lname = document.getElementById("lname");
+    console.log(fname, lname);
+
+    const inputsByName = document.getElementsByName("firstname");
+    console.log(inputsByName);
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // prevent page reload
+      const first = fname.value.trim();
+      const last = lname.value.trim();
+
+      if (first && last) {
+        const ul = document.querySelector(".usersAnswer");
+        ul.innerHTML = ""; // clear previous
+        [first, last].forEach(val => {
+          const li = document.createElement("li");
+          li.textContent = val;
+          ul.appendChild(li);
+        });
+      } else {
+        alert("Please fill in both fields.");
+      }
+    });
+  </script>
+</body>
+</html>
