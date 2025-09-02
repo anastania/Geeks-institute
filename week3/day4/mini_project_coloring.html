@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coloring Squares</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f2f2f2;
+      margin: 20px;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+    }
+
+    .color-picker {
+      margin: 10px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(20, 20px);
+      grid-template-rows: repeat(20, 20px);
+      gap: 1px;
+      margin: 20px auto;
+      width: max-content;
+      background: #ccc;
+      padding: 2px;
+    }
+
+    .cell {
+      width: 20px;
+      height: 20px;
+      background: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Coloring Squares</h1>
+  <p>Select a color, then draw on the grid:</p>
+
+  <input type="color" id="colorPicker" class="color-picker" value="#000000">
+
+  <div class="grid" id="grid"></div>
+
+  <script>
+    const grid = document.getElementById("grid");
+    const colorPicker = document.getElementById("colorPicker");
+
+    let isDrawing = false;
+    let currentColor = colorPicker.value;
+
+    // Create the grid
+    for (let i = 0; i < 20 * 20; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+
+      // Coloring logic
+      cell.addEventListener("mousedown", () => {
+        isDrawing = true;
+        cell.style.backgroundColor = currentColor;
+      });
+
+      cell.addEventListener("mouseover", () => {
+        if (isDrawing) {
+          cell.style.backgroundColor = currentColor;
+        }
+      });
+
+      grid.appendChild(cell);
+    }
+
+    // Update color when changed
+    colorPicker.addEventListener("input", (e) => {
+      currentColor = e.target.value;
+    });
+
+    // Stop drawing on mouseup anywhere
+    document.addEventListener("mouseup", () => {
+      isDrawing = false;
+    });
+  </script>
+</body>
+</html>
