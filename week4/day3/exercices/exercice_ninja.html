@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bird Class Exercise</title>
+</head>
+<body>
+  <h1>Bird Class Exercise</h1>
+  <pre id="output"></pre>
+
+  <script>
+    let out = document.getElementById("output")
+
+    class Bird {
+      constructor() {
+        out.textContent += "I'm a bird. 🦢\n"
+      }
+    }
+
+    class Flamingo extends Bird {
+      constructor() {
+        out.textContent += "I'm pink. 🌸\n"
+        super()
+      }
+    }
+
+    const pet = new Flamingo()
+  </script>
+</body>
+</html>

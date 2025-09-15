@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Quote Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    button { margin: 5px; padding: 5px 10px; }
+    section { border: 1px solid #ccc; padding: 15px; margin: 15px 0; min-height: 50px; }
+  </style>
+</head>
+<body>
+  <h1>Random Quote Generator</h1>
+
+  <button id="generate">Generate Quote</button>
+  <section id="quoteDisplay"></section>
+
+  <h2>Add a Quote</h2>
+  <form id="addQuoteForm">
+    <input type="text" id="newQuote" placeholder="Quote" required>
+    <input type="text" id="newAuthor" placeholder="Author" required>
+    <button type="submit">Add Quote</button>
+  </form>
+
+  <h2>Quote Info & Actions</h2>
+  <button id="charWithSpaces">Characters (with spaces)</button>
+  <button id="charNoSpaces">Characters (no spaces)</button>
+  <button id="wordCount">Word Count</button>
+  <button id="likeBtn">Like ❤️</button>
+  <p id="info"></p>
+
+  <h2>Filter Quotes by Author</h2>
+  <form id="filterForm">
+    <input type="text" id="authorFilter" placeholder="Author name" required>
+    <button type="submit">Filter</button>
+  </form>
+  <section id="filterDisplay"></section>
+  <button id="prevBtn" style="display:none">Previous</button>
+  <button id="nextBtn" style="display:none">Next</button>
+
+  <script>
+    let quotes = [
+      {id: 0, author: "Albert Einstein", quote: "Life is like riding a bicycle. To keep your balance you must keep moving.", likes: 0},
+      {id: 1, author: "Oscar Wilde", quote: "Be yourself; everyone else is already taken.", likes: 0},
+      {id: 2, author: "Confucius", quote: "It does not matter how slowly you go as long as you do not stop.", likes: 0},
+      {id: 3, author: "Yoda", quote: "Do or do not. There is no try.", likes: 0}
+    ]
+
+    let lastQuoteIndex = -1
+    let currentQuote = null
+
+    const quoteDisplay = document.getElementById("quoteDisplay")
+    const info = document.getElementById("info")
+
+    document.getElementById("generate").addEventListener("click", () => {
+      let randomIndex
+      do {
+        randomIndex = Math.floor(Math.random() * quotes.length)
+      } while (randomIndex === lastQuoteIndex)
+      lastQuoteIndex = randomIndex
+      currentQuote = quotes[randomIndex]
+      displayQuote(currentQuote)
+    })
+
+    function displayQuote(quoteObj) {
+      quoteDisplay.textContent = `"${quoteObj.quote}" — ${quoteObj.author} (Likes: ${quoteObj.likes})`
+    }
+
+    document.getElementById("addQuoteForm").addEventListener("submit", e => {
+      e.preventDefault()
+      const text = document.getElementById("newQuote").value.trim()
+      const author = document.getElementById("newAuthor").value.trim()
+      if (text && author) {
+        const newId = quotes.length
+        quotes.push({id: newId, author, quote: text, likes: 0})
+        document.getElementById("newQuote").value = ""
+        document.getElementById("newAuthor").value = ""
+        alert("Quote added!")
+      }
+    })
+
+    document.getElementById("charWithSpaces").addEventListener("click", () => {
+      if (currentQuote) info.textContent = "Characters (with spaces): " + currentQuote.quote.length
+    })
+
+    document.getElementById("charNoSpaces").addEventListener("click", () => {
+      if (currentQuote) info.textContent = "Characters (no spaces): " + currentQuote.quote.replace(/\s+/g,"").length
+    })
+
+    document.getElementById("wordCount").addEventListener("click", () => {
+      if (currentQuote) info.textContent = "Word count: " + currentQuote.quote.trim().split(/\s+/).length
+    })
+
+    document.getElementById("likeBtn").addEventListener("click", () => {
+      if (currentQuote) {
+        currentQuote.likes++
+        displayQuote(currentQuote)
+      }
+    })
+
+    const filterForm = document.getElementById("filterForm")
+    const filterDisplay = document.getElementById("filterDisplay")
+    const prevBtn = document.getElementById("prevBtn")
+    const nextBtn = document.getElementById("nextBtn")
+    let filteredQuotes = []
+    let filterIndex = 0
+
+    filterForm.addEventListener("submit", e => {
+      e.preventDefault()
+      const authorName = document.getElementById("authorFilter").value.trim()
+      filteredQuotes = quotes.filter(q => q.author.toLowerCase() === authorName.toLowerCase())
+      filterIndex = 0
+      if (filteredQuotes.length > 0) {
+        showFilteredQuote()
+        prevBtn.style.display = "inline"
+        nextBtn.style.display = "inline"
+      } else {
+        filterDisplay.textContent = "No quotes found for this author."
+        prevBtn.style.display = "none"
+        nextBtn.style.display = "none"
+      }
+    })
+
+    function showFilteredQuote() {
+      const q = filteredQuotes[filterIndex]
+      filterDisplay.textContent = `"${q.quote}" — ${q.author} (Likes: ${q.likes})`
+    }
+
+    prevBtn.addEventListener("click", () => {
+      if (filterIndex > 0) {
+        filterIndex--
+        showFilteredQuote()
+      }
+    })
+
+    nextBtn.addEventListener("click", () => {
+      if (filterIndex < filteredQuotes.length - 1) {
+        filterIndex++
+        showFilteredQuote()
+      }
+    })
+  </script>
+</body>
+</html>

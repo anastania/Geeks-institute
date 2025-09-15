@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe AI</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f7f7f7; }
+    h1 { margin-top: 20px; }
+    #board { display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 5px; margin: 20px auto; width: 320px; }
+    .cell { width: 100px; height: 100px; background: white; border: 2px solid #333; display: flex; justify-content: center; align-items: center; font-size: 2em; cursor: pointer; }
+    #controls { margin: 20px; }
+    #message { margin: 15px; font-weight: bold; }
+    button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Tic Tac Toe AI</h1>
+  <div id="controls">
+    <button onclick="chooseSymbol('X')">Play as X</button>
+    <button onclick="chooseSymbol('O')">Play as O</button>
+    <button onclick="setLevel('easy')">Easy</button>
+    <button onclick="setLevel('hard')">Hard</button>
+    <button onclick="restartGame()">Restart</button>
+  </div>
+  <div id="board"></div>
+  <div id="message"></div>
+
+  <script>
+    const boardEl = document.getElementById("board")
+    const messageEl = document.getElementById("message")
+    const winCombos = [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[6,4,2]
+    ]
+    let board = Array(9).fill("")
+    let human = "X"
+    let ai = "O"
+    let gameOver = false
+    let level = "easy"
+
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement("div")
+      cell.classList.add("cell")
+      cell.dataset.index = i
+      cell.addEventListener("click", playerMove)
+      boardEl.appendChild(cell)
+    }
+
+    function chooseSymbol(symbol) {
+      human = symbol
+      ai = (symbol === "X") ? "O" : "X"
+      restartGame()
+    }
+
+    function setLevel(lvl) {
+      level = lvl
+      messageEl.textContent = "Level set to " + lvl
+    }
+
+    function playerMove(e) {
+      const idx = e.target.dataset.index
+      if (!board[idx] && !gameOver) {
+        board[idx] = human
+        render()
+        if (checkWinner(human)) return endGame("You win!")
+        if (isTie()) return endGame("Tie game!")
+        aiMove()
+      }
+    }
+
+    function aiMove() {
+      let idx
+      if (level === "easy") {
+        const empty = board.map((v,i)=>v===""?i:null).filter(v=>v!==null)
+        idx = empty[Math.floor(Math.random()*empty.length)]
+      } else {
+        idx = findBestMove()
+      }
+      if (idx !== undefined && !gameOver) {
+        board[idx] = ai
+        render()
+        if (checkWinner(ai)) return endGame("Computer wins!")
+        if (isTie()) return endGame("Tie game!")
+      }
+    }
+
+    function findBestMove() {
+      for (let combo of winCombos) {
+        const [a,b,c] = combo
+        const line = [board[a], board[b], board[c]]
+        if (line.filter(v=>v===human).length===2 && line.includes("")) {
+          return combo[line.indexOf("")]
+        }
+      }
+      const empty = board.map((v,i)=>v===""?i:null).filter(v=>v!==null)
+      return empty[Math.floor(Math.random()*empty.length)]
+    }
+
+    function checkWinner(player) {
+      return winCombos.some(combo => combo.every(i => board[i] === player))
+    }
+
+    function isTie() {
+      return board.every(cell => cell !== "")
+    }
+
+    function endGame(msg) {
+      messageEl.textContent = msg
+      gameOver = true
+    }
+
+    function restartGame() {
+      board.fill("")
+      gameOver = false
+      messageEl.textContent = ""
+      render()
+    }
+
+    function render() {
+      document.querySelectorAll(".cell").forEach((cell,i)=>cell.textContent = board[i])
+    }
+  </script>
+</body>
+</html>

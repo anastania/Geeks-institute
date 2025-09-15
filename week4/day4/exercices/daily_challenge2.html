@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Truthy Check</title>
+</head>
+<body>
+  <h1>All Truthy Function</h1>
+  <pre id="output"></pre>
+
+  <script>
+    function allTruthy(...args) {
+      return args.every(Boolean)
+    }
+
+    let out = document.getElementById("output")
+    out.textContent += allTruthy(true, true, true) + "\n"
+    out.textContent += allTruthy(true, false, true) + "\n"
+    out.textContent += allTruthy(5, 4, 3, 2, 1, 0) + "\n"
+  </script>
+</body>
+</html>

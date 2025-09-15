@@ -1,0 +1,42 @@
+<!-- form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Exercise</title>
+</head>
+<body>
+  <h1>Form Exercise</h1>
+  <form action="exercice_gold.html" method="GET">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="lastname">Last Name:</label>
+    <input type="text" id="lastname" name="lastname" required><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
+
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Result</title>
+</head>
+<body>
+  <h1>Form Result</h1>
+  <section id="display"></section>
+
+  <script>
+    const params = new URLSearchParams(window.location.search)
+    const name = params.get("name")
+    const lastname = params.get("lastname")
+
+    const section = document.getElementById("display")
+    section.textContent = `Name: ${name}, Last Name: ${lastname}`
+  </script>
+</body>
+</html>
