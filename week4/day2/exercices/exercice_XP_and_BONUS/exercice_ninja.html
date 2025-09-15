@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Array Exercises</title>
+</head>
+<body>
+  <h1>Array Methods and Destructuring Exercises</h1>
+  <pre id="output"></pre>
+
+  <script>
+    let out = document.getElementById("output")
+
+    // Exercise 1
+    const data = [
+      { name: 'Butters', age: 3, type: 'dog' },
+      { name: 'Cuty', age: 5, type: 'rabbit' },
+      { name: 'Lizzy', age: 6, type: 'dog' },
+      { name: 'Red', age: 1, type: 'cat' },
+      { name: 'Joey', age: 3, type: 'dog' },
+      { name: 'Rex', age: 10, type: 'dog' },
+    ]
+
+    let sumLoop = 0
+    for (let animal of data) {
+      if (animal.type === "dog") {
+        sumLoop += animal.age * 7
+      }
+    }
+
+    let sumReduce = data
+      .filter(a => a.type === "dog")
+      .reduce((acc, cur) => acc + cur.age * 7, 0)
+
+    out.textContent += "Exercise 1:\nLoop sum: " + sumLoop + "\nReduce sum: " + sumReduce + "\n\n"
+
+    // Exercise 2
+    const userEmail3 = ' cannotfillemailformcorrectly@gmail.com '
+    const cleanEmail = userEmail3.trim()
+    out.textContent += "Exercise 2:\n" + cleanEmail + "\n\n"
+
+    // Exercise 3
+    const users = [
+      { firstName: 'Bradley', lastName: 'Bouley', role: 'Full Stack Resident' },
+      { firstName: 'Chloe', lastName: 'Alnaji', role: 'Full Stack Resident' },
+      { firstName: 'Jonathan', lastName: 'Baughn', role: 'Enterprise Instructor' },
+      { firstName: 'Michael', lastName: 'Herman', role: 'Lead Instructor' },
+      { firstName: 'Robert', lastName: 'Hajek', role: 'Full Stack Resident' },
+      { firstName: 'Wes', lastName: 'Reid', role: 'Instructor'},
+      { firstName: 'Zach', lastName: 'Klabunde', role: 'Instructor'}
+    ]
+
+    let usersObj = {}
+    for (let u of users) {
+      usersObj[`${u.firstName} ${u.lastName}`] = u.role
+    }
+    out.textContent += "Exercise 3:\n" + JSON.stringify(usersObj, null, 2) + "\n\n"
+
+    // Exercise 4
+    const letters = ['x', 'y', 'z', 'z']
+    let countLoop = {}
+    for (let l of letters) {
+      countLoop[l] = (countLoop[l] || 0) + 1
+    }
+
+    let countReduce = letters.reduce((acc, cur) => {
+      acc[cur] = (acc[cur] || 0) + 1
+      return acc
+    }, {})
+
+    out.textContent += "Exercise 4:\nLoop: " + JSON.stringify(countLoop) + "\nReduce: " + JSON.stringify(countReduce) + "\n"
+  </script>
+</body>
+</html>

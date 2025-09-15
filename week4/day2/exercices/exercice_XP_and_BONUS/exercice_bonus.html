@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Array Exercises</title>
+</head>
+<body>
+  <h1>Array Methods and Destructuring Exercises</h1>
+  <pre id="output"></pre>
+
+  <script>
+    let out = document.getElementById("output")
+
+    // Exercise 1
+    const ex1 = [1, 2, 3].map(num => {
+      if (typeof num === 'number') return num * 2
+      return
+    })
+    out.textContent += "Exercise 1:\n" + JSON.stringify(ex1) + "\n\n"
+
+    // Exercise 2
+    const ex2 = [[0, 1], [2, 3]].reduce(
+      (acc, cur) => acc.concat(cur),
+      [1, 2]
+    )
+    out.textContent += "Exercise 2:\n" + JSON.stringify(ex2) + "\n\n"
+
+    // Exercise 3
+    const arrayNum = [1, 2, 4, 5, 8, 9]
+    const newArray = arrayNum.map((num, i) => {
+      console.log("Exercise 3 log:", num, i)
+      return num * 2
+    })
+    out.textContent += "Exercise 3:\ni = index of element → " + arrayNum.map((_, i) => i).join(", ") + "\n\n"
+
+    // Exercise 4a
+    const array = [[1],[2],[3],[[[4]]],[[[5]]]]
+    const result = array.flat(2)
+    out.textContent += "Exercise 4a:\n" + JSON.stringify(result) + "\n\n"
+
+    // Exercise 4b
+    const greeting = [["Hello", "young", "grasshopper!"], ["you", "are"], ["learning", "fast!"]]
+    const sentences = greeting.map(arr => arr.join(" "))
+    out.textContent += "Exercise 4b:\n" + JSON.stringify(sentences) + "\n\n"
+
+    // Exercise 4c
+    const fullString = sentences.join(" ")
+    out.textContent += "Exercise 4c:\n" + fullString + "\n\n"
+
+    // Exercise 4d
+    const trapped = [[[[[[[[[[[[[[[[[[[[[[[[[[3]]]]]]]]]]]]]]]]]]]]]]]]]]
+    const unwrapped = trapped.flat(Infinity)
+    out.textContent += "Exercise 4d:\n" + JSON.stringify(unwrapped) + "\n"
+  </script>
+</body>
+</html>
