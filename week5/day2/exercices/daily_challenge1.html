@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Giphy Random GIFs</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #gifContainer { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+    .gifBox { position: relative; display: inline-block; }
+    .gifBox button { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Random GIF Generator</h1>
+  <form id="gifForm">
+    <input type="text" id="search" placeholder="Enter category" required>
+    <button type="submit">Get GIF</button>
+  </form>
+  <button id="deleteAll">DELETE ALL</button>
+  <div id="gifContainer"></div>
+
+  <script>
+    const form = document.getElementById("gifForm")
+    const input = document.getElementById("search")
+    const gifContainer = document.getElementById("gifContainer")
+    const deleteAllBtn = document.getElementById("deleteAll")
+    const API_KEY = "hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My"
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault()
+      const category = input.value.trim()
+      if (!category) return
+      try {
+        const res = await fetch(`https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${category}`)
+        const data = await res.json()
+        const url = data.data.images.fixed_height.url
+        const gifBox = document.createElement("div")
+        gifBox.className = "gifBox"
+        gifBox.innerHTML = `<img src="${url}" alt="gif"><button>DELETE</button>`
+        gifBox.querySelector("button").addEventListener("click", () => gifBox.remove())
+        gifContainer.appendChild(gifBox)
+      } catch (err) {
+        console.log("Error fetching gif:", err)
+      }
+      input.value = ""
+    })
+
+    deleteAllBtn.addEventListener("click", () => {
+      gifContainer.innerHTML = ""
+    })
+  </script>
+</body>
+</html>
