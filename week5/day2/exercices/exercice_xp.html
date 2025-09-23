@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fetch API & Async/Await Exercises</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2 { margin-top: 30px; color: #2c3e50; }
+    .gif-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .gif-container img { max-width: 200px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>🌟 Fetch API & Async/Await Exercises</h1>
+
+  <!-- Exercise 1 -->
+  <h2>Exercise 1: Giphy API (hilarious)</h2>
+  <div id="exercise1" class="gif-container"></div>
+
+  <!-- Exercise 2 -->
+  <h2>Exercise 2: Giphy API (sun, limit=10, offset=2)</h2>
+  <div id="exercise2" class="gif-container"></div>
+
+  <!-- Exercise 3 -->
+  <h2>Exercise 3: Async Function (Star Wars API)</h2>
+  <pre id="exercise3"></pre>
+
+  <!-- Exercise 4 -->
+  <h2>Exercise 4: Analyze Async/Await Behavior</h2>
+  <pre id="exercise4"></pre>
+
+  <script>
+    // 🌟 Exercise 1
+    async function exercise1() {
+      const url = "https://api.giphy.com/v1/gifs/search?q=hilarious&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My";
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("HTTP error! Status: " + response.status);
+
+        const data = await response.json();
+        console.log("Exercise 1 Data:", data);
+
+        // Display first 3 gifs for clarity
+        const container = document.getElementById("exercise1");
+        data.data.slice(0, 3).forEach(gif => {
+          const img = document.createElement("img");
+          img.src = gif.images.fixed_height.url;
+          container.appendChild(img);
+        });
+
+      } catch (error) {
+        console.error("Error in Exercise 1:", error);
+      }
+    }
+
+    // 🌟 Exercise 2
+    async function exercise2() {
+      const url = "https://api.giphy.com/v1/gifs/search?q=sun&limit=10&offset=2&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My";
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("HTTP error! Status: " + response.status);
+
+        const data = await response.json();
+        console.log("Exercise 2 Data:", data);
+
+        const container = document.getElementById("exercise2");
+        data.data.forEach(gif => {
+          const img = document.createElement("img");
+          img.src = gif.images.fixed_height.url;
+          container.appendChild(img);
+        });
+
+      } catch (error) {
+        console.error("Error in Exercise 2:", error);
+      }
+    }
+
+    // 🌟 Exercise 3
+    async function exercise3() {
+      const url = "https://www.swapi.tech/api/starships/9/";
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("HTTP error! Status: " + response.status);
+
+        const data = await response.json();
+        console.log("Exercise 3 Data:", data.result);
+
+        document.getElementById("exercise3").textContent = JSON.stringify(data.result, null, 2);
+      } catch (error) {
+        console.error("Error in Exercise 3:", error);
+      }
+    }
+
+    // 🌟 Exercise 4
+    function resolveAfter2Seconds() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve('resolved');
+        }, 2000);
+      });
+    }
+
+    async function asyncCall() {
+      const output = document.getElementById("exercise4");
+      console.log('calling');
+      output.textContent += "calling\n";
+
+      let result = await resolveAfter2Seconds();
+      console.log(result);
+      output.textContent += result + "\n";
+    }
+
+    // Run all exercises
+    exercise1();
+    exercise2();
+    exercise3();
+    asyncCall();
+  </script>
+</body>
+</html>
