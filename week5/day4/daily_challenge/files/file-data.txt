@@ -1,0 +1,1 @@
+This is some text inside file-data.txt. 🎉
