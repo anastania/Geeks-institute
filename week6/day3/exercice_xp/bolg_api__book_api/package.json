@@ -1,0 +1,22 @@
+{
+  "name": "daily_challenge_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.22"
+    },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3"
+  }
+}

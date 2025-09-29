@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+</head>
+<body>
+  <h2>Register</h2>
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="text" id="lastName" placeholder="Last Name" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="text" id="username" placeholder="Username" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit" id="registerBtn" disabled>Register</button>
+  </form>
+  <p id="message"></p>
+
+  <script>
+    const form = document.getElementById("registerForm");
+    const inputs = form.querySelectorAll("input");
+    const btn = document.getElementById("registerBtn");
+    const msg = document.getElementById("message");
+
+    inputs.forEach(input => {
+      input.addEventListener("input", () => {
+        btn.disabled = !Array.from(inputs).every(i => i.value.trim() !== "");
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById("name").value,
+        lastName: document.getElementById("lastName").value,
+        email: document.getElementById("email").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+      };
+
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+      msg.textContent = result.message;
+    });
+  </script>
+</body>
+</html>

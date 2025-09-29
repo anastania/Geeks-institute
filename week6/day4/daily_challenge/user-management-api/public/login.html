@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit" id="loginBtn" disabled>Login</button>
+  </form>
+  <p id="message"></p>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const inputs = form.querySelectorAll("input");
+    const btn = document.getElementById("loginBtn");
+    const msg = document.getElementById("message");
+
+    inputs.forEach(input => {
+      input.addEventListener("input", () => {
+        btn.disabled = !Array.from(inputs).every(i => i.value.trim() !== "");
+      });
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+      };
+
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+      msg.textContent = result.message;
+    });
+  </script>
+</body>
+</html>
