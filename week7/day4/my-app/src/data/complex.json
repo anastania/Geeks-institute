@@ -1,0 +1,29 @@
+{
+  "SocialMedias": [
+    { "id": "s1", "name": "Twitter", "url": "https://twitter.com" },
+    { "id": "s2", "name": "LinkedIn", "url": "https://linkedin.com" }
+  ],
+  "Skills": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    { "frameworks": ["React", "Vue"] }
+  ],
+  "Experiences": [
+    {
+      "id": 1,
+      "company": "Company A",
+      "roles": [
+        { "title": "Junior Dev", "years": 1 },
+        { "title": "Intern", "years": 0.5 }
+      ]
+    },
+    {
+      "id": 2,
+      "company": "Company B",
+      "roles": [
+        { "title": "Front-end", "years": 2 }
+      ]
+    }
+  ]
+}
